@@ -1,4 +1,7 @@
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use config::settings::{EnvVariables, Settings};
+use dotenv::dotenv;
+pub mod config;
 
 #[get("/")]
 async fn hello() -> impl Responder {
@@ -16,13 +19,19 @@ async fn manual_hello() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    dotenv().ok();
     HttpServer::new(|| {
         App::new()
             .service(hello)
             .service(echo)
             .route("/hey", web::get().to(manual_hello))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind((
+        Settings::expect_env(EnvVariables::HostAddress).as_str(),
+        Settings::expect_env(EnvVariables::HostPort)
+            .parse::<u16>()
+            .expect("HOST_PORT should be a number"),
+    ))?
     .run()
     .await
 }
