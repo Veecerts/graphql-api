@@ -1,0 +1,16 @@
+[package]
+name = "veecerts-backend"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-web = "4.8.0"
+async-graphql = "7.0.7"
+sea-orm = { version = "0.12.15", features = [
+  "sqlx-postgres",
+  "runtime-tokio-native-tls",
+  "macros",
+  "debug-print",
+  "with-json",
+  "with-chrono",
+] }
