@@ -1,3 +1,4 @@
+use actix_cors::Cors;
 use actix_web::{guard, web, App, HttpResponse, HttpServer, Result};
 use async_graphql::http::{graphiql_plugin_explorer, GraphiQLSource};
 use async_graphql_actix_web::GraphQL;
@@ -32,7 +33,9 @@ async fn main() -> std::io::Result<()> {
     let conn = DB::connect().await.expect("Database connection failed");
     HttpServer::new(move || {
         let schema = build_schema(conn.clone());
+        let cors = Cors::permissive();
         App::new()
+            .wrap(cors)
             .service(
                 web::resource("/")
                     .guard(guard::Post())
