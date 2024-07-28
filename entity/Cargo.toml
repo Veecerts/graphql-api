@@ -1,0 +1,16 @@
+[package]
+name = "entity"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+sea-orm = { version = "0.12", features = [
+  "sqlx-postgres",
+  "runtime-tokio-native-tls",
+  "macros",
+  "with-chrono",
+  "debug-print",
+  "with-time",
+  "with-json",
+] }
+serde = "1.0.196"
