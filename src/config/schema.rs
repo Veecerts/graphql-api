@@ -1,7 +1,7 @@
 use async_graphql::*;
 use sea_orm::DbConn;
 
-use crate::files::graphql::mutations::FileMutations;
+use crate::files::graphql::{mutations::FileMutations, queries::FileQueries};
 
 #[derive(Default)]
 struct VersionQuery;
@@ -14,7 +14,7 @@ impl VersionQuery {
 }
 
 #[derive(MergedObject, Default)]
-pub struct Query(VersionQuery);
+pub struct Query(VersionQuery, FileQueries);
 
 #[derive(MergedObject, Default)]
 pub struct Mutation(FileMutations);
